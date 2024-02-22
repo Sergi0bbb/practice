@@ -139,9 +139,55 @@
     shadowAnchor: [4, 62],
     popupAnchor:  [-3, -76]
 });
-
-
 L.marker([50.3487910881127, 30.482071179968415], {icon: greenLeafIcon}).addTo(map).bindPopup("Зелений листок!");
+
+
+var polygonPopupText = "Це полігон на карті";
+L.geoJSON(geoJsonData.features[2], {
+    style: { 
+        fillColor: "red",
+        weight: 2,
+        opacity: 1,
+        color: "blue",
+        fillOpacity: 0.3
+    },
+    onEachFeature: function (feature, layer) {
+        layer.bindPopup(polygonPopupText);
+    }
+}).addTo(map);
+
+function openPopupOnClick(layer) {
+    layer.on('click', function () {
+        layer.openPopup();
+    });
+}
+
+
+var pointLayer = L.geoJSON(geoJsonData.features[1], {
+    pointToLayer: function (feature, latlng) {
+        return L.marker(latlng, {icon: greenLeafIcon})
+            .bindPopup(pointPopupText)
+            .addTo(map);
+    }
+}).addTo(map);
+
+openPopupOnClick(pointLayer);
+
+
+var polygonLayer = L.geoJSON(geoJsonData.features[2], {
+    style: { 
+        fillColor: "blue",
+        weight: 2,
+        opacity: 1,
+        color: "blue",
+        fillOpacity: 0.3
+    },
+    onEachFeature: function (feature, layer) {
+        layer.bindPopup(polygonPopupText);
+    }
+}).addTo(map);
+
+openPopupOnClick(polygonLayer);
 </script>
 
 </body>
